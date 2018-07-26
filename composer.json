@@ -1,6 +1,6 @@
 {
-    "name": "softce/price_ua",
-    "description": "Module for write xml file for price ua.",
+    "name": "softce/prom_ua",
+    "description": "Module for write xml file for prom ua.",
     "authors": [
         {
             "name": "tphpdeveloper",

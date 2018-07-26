@@ -1,11 +1,11 @@
-# Work with module slider
+# Work with module prom_ua
 
 **1.**
 ```php
 //write to composer.json
 "require": {
     ...
-    "softce/price_ua" : "dev-master"
+    "softce/prom_ua" : "dev-master"
 }
 
 "autoload": {
@@ -14,7 +14,7 @@
     "psr-4": {
         ... ,
 
-        "Softce\\Priceua\\" : "vendor/softce/price_ua/src"
+        "Softce\\Promua\\" : "vendor/softce/prom_ua/src"
     }
 }
 ```
@@ -24,7 +24,7 @@
 ```php
 //in console write
 
-composer update softce/price_ua
+composer update softce/prom_ua
 ```
 
 
@@ -34,7 +34,7 @@ composer update softce/price_ua
 
 'providers' => [
     ... ,
-    Softce\Priceua\Providers\PriceuaServiceProvider::class,
+    Softce\Promua\Providers\PromuaServiceProvider::class,
 ]
 
 
@@ -47,7 +47,7 @@ php artisan config:cache
 ```php
 //for show page price ua, in code add next row
 
-{{ route('admin.priceua.index') }}
+{{ route('admin.promua.index') }}
 
 ```
 
@@ -58,15 +58,15 @@ php artisan config:cache
 
 1.
 //in app.php
-Softce\Priceua\Providers\PriceuaServiceProvider::class,
+Softce\Promua\Providers\PromuaServiceProvider::class,
 
 2.
 //in composer.json
-"Softce\\Priceua\\": "vendor/softce/price_ua/src"
+"Softce\\Promua\\": "vendor/softce/prom_ua/src"
 
 3.
 //in console
-composer remove softce/price_ua
+composer remove softce/prom_ua
 
 4.
 // delete -> bootstrap/config/cache.php
@@ -76,6 +76,6 @@ composer remove softce/price_ua
 php artisan config:cache
 
 6.
-//delete row in admin_menus table -> where name 'Price UA'
+//delete row in admin_menus table -> where name 'Prom UA'
 ```
 
