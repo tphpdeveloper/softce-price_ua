@@ -1,11 +1,11 @@
 <?php
 
-namespace Softce\Slider\Module;
+namespace Softce\Promua\Module;
 
 
 use Illuminate\Database\Eloquent\Model;
 
-class Priceua extends Model
+class Promua extends Model
 {
     use \Themsaid\Multilingual\Translatable;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Softce\Slider\Http\Requests;
+namespace Softce\Promua\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
 
-class PriceuaRequest extends Request
+class PromuaRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.

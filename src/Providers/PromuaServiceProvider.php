@@ -1,25 +1,25 @@
 <?php
 
-namespace Softce\Slider\Providers;
+namespace Softce\Promua\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use DB;
 
-class PriceuaServiceProvider extends ServiceProvider
+class PromuaServiceProvider extends ServiceProvider
 {
 
     public function boot(){
         $this->loadRoutesFrom(dirname(__DIR__).'/routes/web.php');
-        $this->loadViewsFrom(dirname(__DIR__) . '/views', 'slider');
+        $this->loadViewsFrom(dirname(__DIR__) . '/views', 'promua');
         $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations');
 
-        $slider = DB::table('admin_menus')->where('name', 'Слайдер')->first();
-        if(is_null($slider)){
+        $promua = DB::table('admin_menus')->where('name', 'Prom UA')->first();
+        if(is_null($promua)){
             DB::table('admin_menus')->insert([
                 'admin_menu_id' => 5,
-                'name' => 'Слайдер',
-                'icon' => 'fa-image',
-                'route' => 'admin.slider.index',
+                'name' => 'Prom UA',
+                'icon' => 'fa-exchange',
+                'route' => 'admin.promua.index',
                 'o' => 0
             ]);
         }
