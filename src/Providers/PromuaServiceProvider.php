@@ -24,6 +24,7 @@ class PromuaServiceProvider extends ServiceProvider
             ]);
         }
     }
+	
 
     public function register(){
         //
