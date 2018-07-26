@@ -1,0 +1,19 @@
+{
+    "name": "softce/price_ua",
+    "description": "Module for write xml file for price ua.",
+    "authors": [
+        {
+            "name": "tphpdeveloper",
+            "email": "igorkutsan@ukr.net"
+        }
+    ],
+    "require": {
+        "php" : ">=7.0",
+        "laravel/framework": "5.5.*"
+
+    },
+    "require-dev":{
+        "phpunit/phpunit": "*"
+    }
+
+}
