@@ -16,11 +16,11 @@ class PromuaServiceProvider extends ServiceProvider
         $promua = DB::table('admin_menus')->where('name', 'Prom UA')->first();
         if(is_null($promua)){
             DB::table('admin_menus')->insert([
-                'admin_menu_id' => 5,
+                'admin_menu_id' => 3,
                 'name' => 'Prom UA',
                 'icon' => 'fa-exchange',
                 'route' => 'admin.promua.index',
-                'o' => 0
+                'o' => 2
             ]);
         }
     }
