@@ -3,10 +3,12 @@
 
 Route::group([
     'namespace' => 'Softce\Promua\Http\Controllers',
-    'prefix' => 'admin/',
+    'prefix' => 'admin/promua/',
     'middleware' => ['web']
     ],function(){
 
-    Route::resource( '/promua', 'PromuaController', [ 'as' => 'admin', 'only' => ['index', 'store'] ] );
+
+    Route::get('show', ['as' => 'admin.promua.show', 'uses' => 'PromuaController@show']);
+    Route::post('create', ['as' => 'admin.promua.create', 'uses' => 'PromuaController@create']);
 
 });

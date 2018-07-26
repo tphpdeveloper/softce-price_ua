@@ -3,99 +3,66 @@
 namespace Softce\Promua\Http\Controllers;
 
 use Mage2\Ecommerce\Http\Controllers\Admin\AdminController;
+use Mage2\Ecommerce\Models\Database\Configuration;
+use Mage2\Ecommerce\Models\Database\Category;
 use Softce\Promua\Http\Requests\PromuaRequest;
 use Softce\Promua\Http\Requests\TypeRequest;
-use Softce\Promua\Module\Promua;
 use File;
 use DB;
 
 class PromuaController extends AdminController
 {
 
-    private $path_slide = '';
-
     public function __construct()
     {
         $this->middleware(['admin.auth']);
-        $this->path_slide = 'uploads/promua';
     }
 
     /**
-     * Show list slide
+     * Show form for select category
+     * @return type
      */
-    public function index()
-    {
-        return view('promua::admin-slide')
-            ->with('slides', Promua::all())
-            ->with('path_slide', $this->path_slide);
+    public function show(){
+        $categories = Category::whereNull('parent_id')->with('children')->get();
+        return view('promua::index', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
-     * Create new slide
+     * Write info to the promua.xml file
      * @param PromuaRequest $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
      */
-    public function store(PromuaRequest $request)
-    {
-        $new_slide = $request->file('new_slide');
+    public function create(PromuaRequest $request){
 
-        if($new_slide) {
-            foreach($new_slide as $slide) {
-                $name_file = $slide->getClientOriginalName();
-                $slide->move(public_path($this->path_slide), $name_file);
-                Promua::create([
-                    'path' => $name_file
-                ]);
-            }
+        dd($request->all());
 
-            return redirect()->route('admin.promua.index')->with('notificationText', 'Слайд(и) успешно добавлен(и)');
+        //get selected categories
+        $categories = Category::whereIn('id', $request->product_category)->get();
+        //get rate the site
+        $current_currency = ConfigurationCurrency::where('main', '1')->first();
+        //get availability data (Наличие)
+        $availability = Availability::query()->pluck('name', 'id')->toArray();
+        //get producers name
+        //$producers = AttributeValue::where('attribute_id', 5)->pluck('name', 'id')->toArray();
+        //generate string from tamplate
+        $hotline_template = view('hotline::hotline', [
+            'magazine_key' => $magazine_key,
+            'categories' => $categories,
+            'rate' => $current_currency->rate,
+            'guaranty' => (is_null($request->product_war) ? null : $this->guaranties[$request->product_war]),
+            'availability' => $availability,
+            //'producers' => $producers
+        ])->render();
+        //write to file
+        $name_file = 'hotline.xml';
+        $bytes_written = File::put(public_path('/'.$name_file), $hotline_template);
+        if ($bytes_written === false){
+            return redirect()->back()->with('errorText', 'Ошибка записи в файл '.$name_file);
         }
-
-        return redirect()->route('admin.promua.index')->with('errorText', 'Для создания слайд(а/ов) нужно изображение');
-    }
-
-    /**
-     * Update slide
-     * @param PromuaRequest $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(PromuaRequest $request, $id)
-    {
-        $slide = Promua::find($id);
-        if($slide){
-            $new_slide = $request->file('slide');
-            $data = $request->except(['_token', 'slide']);
-
-
-            if($new_slide){
-                File::delete(public_path($this->path_slide.'/'.$slide->path));
-
-                $name_file = $new_slide->getClientOriginalName();
-                $new_slide->move(public_path($this->path_slide), $name_file);
-                $data['path'] = $name_file;
-            }
-            $slide->update($data);
-
-            return redirect()->route('admin.promua.index')->with('notificationText', 'Слайд успешно обновлен');
-        }
-        return redirect()->route('admin.promua.index')->with('errorText', 'Ошибка обновления слайда. Повторите запрос позже!!!');
-    }
-
-    /**
-     * Delete slide
-     * @param $id_slide
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy($id_slide)
-    {
-        $slide = Promua::find($id_slide);
-        if($slide){
-            File::delete(public_path($this->path_slide.'/'.$slide->path));
-            $slide->delete();
-            return redirect()->route('admin.promua.index')->with('notificationText', 'Слайд успешно удален');
-        }
-        return redirect()->route('admin.promua.index')->with('errorText', 'Ошибка удаления слайда. Повторите запрос позже!!!');
+        return redirect()->back()->with('notificationText', 'Файл '.$name_file.' успешно создан');
     }
 
 }

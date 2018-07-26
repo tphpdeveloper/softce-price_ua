@@ -19,12 +19,11 @@ class PromuaServiceProvider extends ServiceProvider
                 'admin_menu_id' => 3,
                 'name' => 'Prom UA',
                 'icon' => 'fa-exchange',
-                'route' => 'admin.promua.index',
+                'route' => 'admin.promua.show',
                 'o' => 2
             ]);
         }
     }
-	
 
     public function register(){
         //
