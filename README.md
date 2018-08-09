@@ -47,7 +47,7 @@ php artisan config:cache
 ```php
 //for show page price ua, in code add next row
 
-{{ route('admin.promua.index') }}
+{{ route('admin.promua.show') }}
 
 ```
 

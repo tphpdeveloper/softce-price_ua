@@ -39,7 +39,7 @@
         <!-- /.box-body -->
         <div class="box-footer">
             @if(File::exists(public_path('hotline.xml')))
-                <a href="/public/hotline.xml" download class="btn btn-success" target="_blank">Скачать файл</a>
+                <a href="/public/promua.xml" download class="btn btn-success" target="_blank">Скачать файл</a>
             @endif
         </div>
 
